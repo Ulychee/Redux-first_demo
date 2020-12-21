@@ -25,7 +25,14 @@ export default (state = defaultState,action) => {
     let newState = JSON.parse(JSON.stringify(state))
     console.log(newState,action.id)
     const id = action.id
-    newState.list.splice()
+    newState.list.splice(id,1) //arr.splice(a,b) a--删除位置，b--从删除位置开始删除几个元素
+    // const newArr = newState.list.filter((el,idx)=>{
+    //   if(idx !== id){
+    //     return el
+    //   }
+    // })
+    // newState.list = newArr
+    return newState
   }
 
   return  state

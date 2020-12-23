@@ -1,5 +1,8 @@
+import { CHANGE_INPUT, ADD_ITEM, REMOVE_ITEM} from './actionType'
+
 const defaultState = {
-  inputValue:'Write something',
+  inputValue:'',
+  placeholder:'Write something',
   list:[
     "早八点开晨会，分配任务",
     "早九点 开需求沟通会",
@@ -9,21 +12,21 @@ const defaultState = {
 
 export default (state = defaultState,action) => {
   //reducer里只能接收state，不能改变state
-  if(action.type === 'changeInput'){
+  if(action.type === CHANGE_INPUT){
     let newState = JSON.parse(JSON.stringify(state))
     newState.inputValue = action.value
-    console.log(newState)
     return newState
   }
-  if(action.type === 'addItem'){
+  if(action.type === ADD_ITEM){
     let newState = JSON.parse(JSON.stringify(state))
-    newState.list.push(newState.inputValue)
-    newState.inputValue = ''
-    return newState
+    if(newState.inputValue !== ''){
+      newState.list.push(newState.inputValue)
+      newState.inputValue = ''
+      return newState
+    }
   }
-  if(action.type === 'removeItem'){
+  if(action.type === REMOVE_ITEM){
     let newState = JSON.parse(JSON.stringify(state))
-    console.log(newState,action.id)
     const id = action.id
     newState.list.splice(id,1) //arr.splice(a,b) a--删除位置，b--从删除位置开始删除几个元素
     // const newArr = newState.list.filter((el,idx)=>{

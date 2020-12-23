@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import 'antd/dist/antd.css'
 import { Input, Button, List} from 'antd'
 import store from'./store'
+// import { CHANGE_INPUT, ADD_ITEM, REMOVE_ITEM} from './store/actionType'
+import { changeInputAction, addItemAction, removeItemAction } from './store/actionCreators'
 
 class TodoList extends Component {
   constructor(props){
@@ -10,29 +12,23 @@ class TodoList extends Component {
     store.subscribe(this.storeChange)  //订阅   监听store变化 store.subscribe(func)
   }
 
-  changeValue = (e) => {
-    // console.log(e.target.value)
-    const action = {
-      type:'changeInput',
-      value:e.target.value
-    }
-    store.dispatch(action)
-  }
-
   storeChange = () => {
     this.setState(store.getState())
   }
 
+  changeValue = (e) => {
+    const action = changeInputAction(e.target.value)
+    store.dispatch(action)
+  }
+
   addItem = () => {
-    const action = {type:"addItem"}
+    const action = addItemAction()
     store.dispatch(action)
   }
 
   removeItem = (id) => {
-    const action = {type:"removeItem",id:id}
+    const action = removeItemAction(id)
     store.dispatch(action)
-    // console.log(id)
-    // delete this.state.list[id]
   }
 
   render(){
@@ -40,7 +36,7 @@ class TodoList extends Component {
       <div style={{margin:'10px'}}>
         <div>
           <Input 
-            placeholder={this.state.inputValue} 
+            placeholder={this.state.placeholder} 
             style={{width:"252px",marginRight:'10px'}} 
             onChange={this.changeValue}
             value={this.state.inputValue}
